@@ -45,11 +45,14 @@ export const createDoctorSchema = yup.object({
     .optional(),
 
   avatar: yup
-    .string()
-    .trim()
-    .transform((value) => (value === "" ? undefined : value))
-    .url("Avatar phải là URL hợp lệ")
-    .optional(),
+  .string()
+  .trim()
+  .transform((value, originalValue) =>
+    originalValue === "" ? null : value
+  )
+  .url("Avatar phải là URL hợp lệ")
+  .nullable()
+  .optional(),
 
   experience: yup
     .number()

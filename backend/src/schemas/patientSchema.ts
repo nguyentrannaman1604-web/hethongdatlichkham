@@ -54,8 +54,9 @@ export const registerPatientSchema = yup.object({
   avatar: yup
     .string()
     .trim()
-    .transform((value) => (value === "" ? undefined : value))
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
     .url("Avatar phải là URL hợp lệ")
+    .nullable()
     .optional(),
 });
 

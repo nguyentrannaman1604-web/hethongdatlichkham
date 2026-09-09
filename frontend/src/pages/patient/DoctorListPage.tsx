@@ -139,7 +139,7 @@ function DoctorCard({ doctor }: DoctorCardProps) {
           textTransform: "none",
         }}
       >
-        Xem chi tiết
+        Đặt lịch khám
       </Button>
     </Paper>
   );
