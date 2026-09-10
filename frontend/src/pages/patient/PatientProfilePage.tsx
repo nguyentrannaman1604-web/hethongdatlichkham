@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Alert,
@@ -13,52 +13,57 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import axios from "axios";
+
 import {
   patientProfileSchema,
   type PatientProfileFormData,
 } from "../../schemas/patientSchema";
+
 import {
   getPatientProfile,
   updatePatientProfile,
 } from "../../services/patientService";
 
 import { useAuth } from "../../context/AuthContext";
+
 function PatientProfilePage() {
   const { updateUser } = useAuth();
 
   const [loading, setLoading] = useState(true);
-
   const [message, setMessage] = useState("");
-
   const [success, setSuccess] = useState(false);
-
   const [email, setEmail] = useState("");
 
   const {
     register,
+    control,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<PatientProfileFormData>({
     resolver: yupResolver(patientProfileSchema),
+
+    defaultValues: {
+      name: "",
+      phone: "",
+      dateOfBirth: "",
+      gender: undefined,
+    },
   });
 
   useEffect(() => {
     const loadProfile = async () => {
       try {
         setLoading(true);
-
         setMessage("");
 
         const response = await getPatientProfile();
-
         const profile = response.data;
 
         setEmail(profile.email || "");
 
         reset({
           name: profile.name || "",
-
           phone: profile.phone || "",
 
           dateOfBirth: profile.dateOfBirth
@@ -71,7 +76,6 @@ function PatientProfilePage() {
         console.error("Load profile error:", error);
 
         setSuccess(false);
-
         setMessage("Không thể tải thông tin hồ sơ");
       } finally {
         setLoading(false);
@@ -84,18 +88,17 @@ function PatientProfilePage() {
   const onSubmit = async (data: PatientProfileFormData) => {
     try {
       setMessage("");
+
       const response = await updatePatientProfile(data);
       const updatedProfile = response.data;
 
       updateUser({
         name: updatedProfile.name,
-
         phone: updatedProfile.phone,
       });
 
       reset({
         name: updatedProfile.name || "",
-
         phone: updatedProfile.phone || "",
 
         dateOfBirth: updatedProfile.dateOfBirth
@@ -106,7 +109,6 @@ function PatientProfilePage() {
       });
 
       setSuccess(true);
-
       setMessage("Cập nhật hồ sơ thành công");
     } catch (error: unknown) {
       console.error("Update profile error:", error);
@@ -126,11 +128,8 @@ function PatientProfilePage() {
       <Box
         sx={{
           minHeight: 400,
-
           display: "flex",
-
           justifyContent: "center",
-
           alignItems: "center",
         }}
       >
@@ -143,7 +142,6 @@ function PatientProfilePage() {
     <Box
       sx={{
         display: "flex",
-
         justifyContent: "center",
 
         px: {
@@ -156,7 +154,6 @@ function PatientProfilePage() {
         elevation={2}
         sx={{
           width: "100%",
-
           maxWidth: 700,
 
           p: {
@@ -168,13 +165,10 @@ function PatientProfilePage() {
           borderRadius: 2,
         }}
       >
-        {/* TIÊU ĐỀ */}
-
         <Typography
           variant="h4"
           sx={{
             fontWeight: 700,
-
             mb: 1,
 
             fontSize: {
@@ -190,7 +184,6 @@ function PatientProfilePage() {
         <Typography
           sx={{
             color: "text.secondary",
-
             mb: 3,
           }}
         >
@@ -209,8 +202,6 @@ function PatientProfilePage() {
         )}
 
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-          {/* HỌ TÊN */}
-
           <TextField
             label="Họ và tên"
             required
@@ -262,24 +253,29 @@ function PatientProfilePage() {
             helperText={errors.dateOfBirth?.message}
           />
 
-          <TextField
-            select
-            label="Giới tính"
-            fullWidth
-            margin="normal"
-            defaultValue=""
-            {...register("gender")}
-            error={!!errors.gender}
-            helperText={errors.gender?.message}
-          >
-            <MenuItem value="">Không chọn</MenuItem>
-
-            <MenuItem value="MALE">Nam</MenuItem>
-
-            <MenuItem value="FEMALE">Nữ</MenuItem>
-
-            <MenuItem value="OTHER">Khác</MenuItem>
-          </TextField>
+          <Controller
+            name="gender"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                select
+                label="Giới tính"
+                fullWidth
+                margin="normal"
+                value={field.value || ""}
+                onChange={(event) => {
+                  field.onChange(event.target.value || undefined);
+                }}
+                error={!!errors.gender}
+                helperText={errors.gender?.message}
+              >
+                <MenuItem value="">Không chọn</MenuItem>
+                <MenuItem value="MALE">Nam</MenuItem>
+                <MenuItem value="FEMALE">Nữ</MenuItem>
+                <MenuItem value="OTHER">Khác</MenuItem>
+              </TextField>
+            )}
+          />
 
           <Button
             type="submit"
@@ -289,11 +285,8 @@ function PatientProfilePage() {
             disabled={isSubmitting}
             sx={{
               mt: 3,
-
               py: 1.3,
-
               textTransform: "none",
-
               fontWeight: 600,
             }}
           >
