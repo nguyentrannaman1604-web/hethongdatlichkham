@@ -18,6 +18,14 @@ function createDateTime(date: string, time: string) {
   return new Date(`${date}T${time}:00+07:00`);
 }
 
+function getDayOfWeek(date: string) {
+  const [year, month, day] = date.split("-").map(Number);
+
+  const parsedDate = new Date(Date.UTC(year, month - 1, day));
+
+  return parsedDate.getUTCDay();
+}
+
 export async function getDoctorAvailability(doctorId: number, date: string) {
   const doctor = await prisma.doctor.findUnique({
     where: {
@@ -29,13 +37,7 @@ export async function getDoctorAvailability(doctorId: number, date: string) {
     throw new AppError("Không tìm thấy bác sĩ", 404);
   }
 
-  const selectedDate = new Date(`${date}T00:00:00+07:00`);
-
-  if (Number.isNaN(selectedDate.getTime())) {
-    throw new AppError("Ngày không hợp lệ", 400);
-  }
-
-  const dayOfWeek = selectedDate.getDay();
+  const dayOfWeek = getDayOfWeek(date);
 
   const schedules = await prisma.workingSchedule.findMany({
     where: {
