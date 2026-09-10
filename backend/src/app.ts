@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+
 import authRoutes from "./routes/authRoutes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import specialtyRoutes from "./routes/specialtyRoutes.js";
@@ -11,9 +12,32 @@ import statisticsRoutes from "./routes/statisticsRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import doctorProfileRoutes from "./routes/doctorProfileRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
+
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL,
+].filter(Boolean) as string[];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Origin không được phép bởi CORS"));
+    },
+
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -31,16 +55,24 @@ app.get("/api/v1/health", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/specialties", specialtyRoutes);
-app.use("/api/v1/doctors", doctorRoutes);
-app.use("/api/v1/doctor/schedules", scheduleRoutes);
-app.use("/api/v1/appointments", appointmentRoutes);
-app.use("/api/v1/reviews", reviewRoutes);
-app.use("/api/v1/admin/statistics", statisticsRoutes);
-app.use("/api/v1/profile", profileRoutes);
-app.use("/api/v1/doctor/profile", doctorProfileRoutes);
-app.use("/api/v1/ai", aiRoutes);
 
+app.use("/api/v1/specialties", specialtyRoutes);
+
+app.use("/api/v1/doctors", doctorRoutes);
+
+app.use("/api/v1/doctor/schedules", scheduleRoutes);
+
+app.use("/api/v1/appointments", appointmentRoutes);
+
+app.use("/api/v1/reviews", reviewRoutes);
+
+app.use("/api/v1/admin/statistics", statisticsRoutes);
+
+app.use("/api/v1/profile", profileRoutes);
+
+app.use("/api/v1/doctor/profile", doctorProfileRoutes);
+
+app.use("/api/v1/ai", aiRoutes);
 
 app.use(errorHandler);
 
