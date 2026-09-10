@@ -1,9 +1,4 @@
-import {
-  Box,
-  Container,
-  Divider,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Divider, Typography } from "@mui/material";
 
 function Footer() {
   return (
@@ -30,7 +25,6 @@ function Footer() {
             gap: 5,
           }}
         >
-         
           <Box>
             <Typography
               variant="h5"
@@ -49,11 +43,9 @@ function Footer() {
                 maxWidth: 420,
               }}
             >
-              PHÒNG KHÁM PANDA cung cấp dịch vụ
-              chăm sóc sức khỏe và hỗ trợ đặt lịch
-              khám trực tuyến, giúp bệnh nhân dễ
-              dàng tìm kiếm bác sĩ và lựa chọn thời
-              gian khám phù hợp.
+              PHÒNG KHÁM PANDA cung cấp dịch vụ chăm sóc sức khỏe và hỗ trợ đặt
+              lịch khám trực tuyến, giúp bệnh nhân dễ dàng tìm kiếm bác sĩ và
+              lựa chọn thời gian khám phù hợp.
             </Typography>
 
             <Typography
@@ -66,7 +58,6 @@ function Footer() {
             </Typography>
           </Box>
 
-      
           <Box>
             <Typography
               variant="h6"
@@ -78,25 +69,15 @@ function Footer() {
               Dịch vụ
             </Typography>
 
-            <Typography sx={itemStyle}>
-              Tìm bác sĩ
-            </Typography>
+            <Typography sx={itemStyle}>Tìm bác sĩ</Typography>
 
-            <Typography sx={itemStyle}>
-              Đặt lịch khám
-            </Typography>
+            <Typography sx={itemStyle}>Đặt lịch khám</Typography>
 
-            <Typography sx={itemStyle}>
-              Tra cứu lịch hẹn
-            </Typography>
+            <Typography sx={itemStyle}>Tra cứu lịch hẹn</Typography>
 
-            <Typography sx={itemStyle}>
-              Chuyên khoa
-            </Typography>
+            <Typography sx={itemStyle}>Chuyên khoa</Typography>
 
-            <Typography sx={itemStyle}>
-              Tư vấn sức khỏe
-            </Typography>
+            <Typography sx={itemStyle}>Tư vấn sức khỏe</Typography>
           </Box>
 
           <Box>
@@ -110,25 +91,15 @@ function Footer() {
               Thông tin
             </Typography>
 
-            <Typography sx={itemStyle}>
-              Giới thiệu phòng khám
-            </Typography>
+            <Typography sx={itemStyle}>Giới thiệu phòng khám</Typography>
 
-            <Typography sx={itemStyle}>
-              Đội ngũ bác sĩ
-            </Typography>
+            <Typography sx={itemStyle}>Đội ngũ bác sĩ</Typography>
 
-            <Typography sx={itemStyle}>
-              Hướng dẫn đặt lịch
-            </Typography>
+            <Typography sx={itemStyle}>Hướng dẫn đặt lịch</Typography>
 
-            <Typography sx={itemStyle}>
-              Chính sách bảo mật
-            </Typography>
+            <Typography sx={itemStyle}>Chính sách bảo mật</Typography>
 
-            <Typography sx={itemStyle}>
-              Câu hỏi thường gặp
-            </Typography>
+            <Typography sx={itemStyle}>Câu hỏi thường gặp</Typography>
           </Box>
 
           {/* CỘT 4 */}
@@ -143,24 +114,16 @@ function Footer() {
               Liên hệ
             </Typography>
 
-            <Typography sx={itemStyle}>
-              PHÒNG KHÁM PANDA
-            </Typography>
+            <Typography sx={itemStyle}>PHÒNG KHÁM PANDA</Typography>
+
+            <Typography sx={itemStyle}>Hotline: 1900 1234</Typography>
+
+            <Typography sx={itemStyle}>Email: contact@panda.vn</Typography>
+
+            <Typography sx={itemStyle}>Thứ 2 - Thứ sáu</Typography>
 
             <Typography sx={itemStyle}>
-              Hotline: 1900 1234
-            </Typography>
-
-            <Typography sx={itemStyle}>
-              Email: contact@panda.vn
-            </Typography>
-
-            <Typography sx={itemStyle}>
-              Thứ 2 - Thứ sáu
-            </Typography>
-
-            <Typography sx={itemStyle}>
-              08:00 - 16:00
+              08:00 - 17:00 (Nghỉ trưa 12:00 - 13:00)
             </Typography>
           </Box>
         </Box>
@@ -168,8 +131,7 @@ function Footer() {
         <Divider
           sx={{
             my: 4,
-            borderColor:
-              "rgba(255,255,255,0.25)",
+            borderColor: "rgba(255,255,255,0.25)",
           }}
         />
 
@@ -180,8 +142,7 @@ function Footer() {
             fontSize: 14,
           }}
         >
-          © 2026 PHÒNG KHÁM PANDA. Tất cả
-          quyền được bảo lưu.
+          © 2026 PHÒNG KHÁM PANDA. Tất cả quyền được bảo lưu.
         </Typography>
       </Container>
     </Box>
